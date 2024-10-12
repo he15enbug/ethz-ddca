@@ -205,3 +205,8 @@
 - Sequential Logic
   - P & P Chapter 3.4 until end
   - H & H Chapter 3 in full
+
+- More combinational building blocks
+  - H & H 
+    - Chapter 2 in full, e.g., see Tri-state buffer and Z values in Section 2.6
+    - Chapter 5, e.g., Adder, Subtractor, Comparator, Shifter/Rotator, Multiplier, Divider

@@ -76,7 +76,7 @@
 - Modern computers use both n- and p-type transistors, i.e., complementary MOS (CMOS) technology
 - The simplest logic structure that exists in a modern computer: the *inverter* (the *CMOS NOT Gate*)
 
-    ```         3 V
+    ```        3 V
                 |
              +--p--+
              |     |
@@ -84,7 +84,7 @@
              |     |
              +--n--+
                 |
-                0 V
+               0 V
     ```
 - Digital circuit: interpret 0V as logical 0 value, and 3V (high voltage) as logical 1 value
 
@@ -93,4 +93,3 @@
 - Combinational Logic chapters from both books
   - Patt & Patel, Chapter 3
   - Harrison & Harris, Chapter 2
-
