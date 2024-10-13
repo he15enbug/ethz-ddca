@@ -67,6 +67,107 @@
 
 ## Sequental Logic
 
-- Circuits that can store info
-- Finite State Machine
+### Circuits that can store info, with memory
 
+- Sequential Circuit = Combinational Circuit + Storage Elements
+
+#### Cross-Coupled Inverters
+
+- Has 2 stable states: `Q=1` or `Q=0`
+- Has a third possible "metastable" state with both outputs oscillating between 0 and 1
+- Not useful without a *control mechanism* for setting Q
+
+#### More reliable storage elements
+
+- Latches and Flip-Flops
+  - Very fast, parallel access
+  - Very expensive, 1 bit costs tens of transistors
+- Static RAM
+  - Relatively fast
+  - Expensive, 1 bit costs 6+ transistors
+- Dynamic RAM
+  - Slower, reading destroys content (refresh), needs special process for manufacturing
+  - Cheap, 1 bit costs only 1 transistor and 1 capacitor
+- Other storage technology (flash memory, hard disk, tape)
+  - Much slower, **non-volatile**
+  - Very cheap
+
+#### The R-S (Reset-Set) Latch
+
+```
+Q  = !(S AND Q')
+Q' = !(R AND Q )
+```
+
+- Cross-coupled NAND gates
+  - Data is stored at Q (inverse at Q')
+  - S and R are control inputs
+    - In *quiescent (idle) state*, both S and R are held at 1
+    - S (set): drive S to 0 (keeping R at 1) to change Q to 1
+    - R (reset): drive R to 0 (keeping S at 1) to change Q to 0
+    - S,R=0,0
+      - breaks the invariant that Q=!Q'
+      - Q and Q' begin to oscillate (metastability)
+      - Thiss eventually settles dependingg on variation in the circuits (more on this in the **Timing Lecture**)
+
+#### The Gated D Latch
+
+- Ensure that people cannot violate the invariant to guarantee correct operation of R-S Latch: add two more NAND gates!
+
+    ```
+    D ------------+
+        |         | 
+        |   +---NAND--- S --- ...
+        |   |
+        |  Write Enable
+        |   |
+        |   +---NAND --- R --- ...
+        |         |
+        +---NOT---+
+    ```
+
+- When Write Enable (WE) is set to 1, `S = !D`, `R = D`, `Q = D`
+- When WE is set to 0, `S = 1`, `R = 1`, `Q = Q_previous`
+
+#### The Register
+
+- Use D-Latch to store more data: use multiple D latches, but with a single WE signal for all latches for simultaneous writes
+
+#### Memory
+
+- Memory is comprised of locations that can be written to or read from
+- Every unique location in mem is indexed with a unique address
+- *Addressability*: the number of bits of info stored in each location. E.g., the addressibility is 8 bits, if each mem location can store 8 bits of data
+- The entire set of unique locations in mem is referred to as the **Address Space**
+
+##### Reading from mem
+
+- Address decoder + multiplexer (together with the decoder)
+
+##### Writing to mem
+
+```
+    Addr[0]                     D_i[n]------+
+       |                                    |
+       +---NOT--> AND -----+--> D Latch <---|
+       |           |                        |
+       |   WE----->+                        |
+       |           |                        |
+       +--------> AND --------> D Latch <---+
+```
+
+##### Aside: Implementing Logic Functions Using Memory
+
+##### Memory-Based Lookup Table Example (from H & H)
+
+- Mem arrays can also perform Boolean Logic Functions
+  - 2^N-location M-bit memory can perform any N-input, M-output function
+  - LUT, Lookup Table: Memory array used to perform logic functions
+  - Each address: row in truth table
+  - Each data bit: corresponding output value
+
+### State
+
+- **State**: The state of a system is a snapshot of all relevant elements of the system at the moment of the snapshot
+
+### Finite State Machine
