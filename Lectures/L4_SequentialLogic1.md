@@ -170,4 +170,59 @@ Q' = !(R AND Q )
 
 - **State**: The state of a system is a snapshot of all relevant elements of the system at the moment of the snapshot
 
+- Asynchronous vs. Synchronous State Change
+  - 2 different design paradims, with tradeoffs
+    - Sync. control can be easier to get correct when the system consists of many components and many states
+    - Async. control can be more effcient (no clock overheads)
+
+- Most modern computers are sync. "machines"
+  - State transitions take place after fixed units of time
+  - Controlled in part by a lock
+
+- At te start of a clock ycle, system state changes
+  - During a clock cycle, the state stays constant
+- **Clock** is a eneral mechanism that triggers transition from one state to another in a (sync.) sequential circuit
+  - Clock synchronizes state changes across many sequential circuit elements
+  - Combinational logic evaluates for the length of the clock cycle
+  - Clock cycle should be chosen to accommodate maximum combinational circuit delay
+
 ### Finite State Machine
+
+- A **discrete-time model** of a stateful system
+- Consists of 5 elements
+  1. A finite number of states
+  2. A finite # of external inputs
+  3. A finite # of external outputs
+  4. An explicit specification of all state transitions
+  5. An explicit specification of what determines each external output value
+- 3 separate parts
+  1. next state logic
+  2. state register
+  3. output logic
+
+- State Register implementation
+  1. store data **at the beginning of every clock cycle**
+  2. data must be available during the entire clock cycle
+- Problem wwith latches
+  - We cannot simply wire a clock to WE of a latch
+    - Whenever the clock is high, the latch propagates D to Q
+    - The latch is **transparent**
+
+#### The D Flip-Flop
+
+- A Master D Latch followed by a slave D Latch
+
+    ```
+    D ----> D Latch (Master) -----> D Latch (Slave) ----> Q
+                (WE)                    (WE)
+                 |                       |
+                NOT                      |
+                 |                       |
+    CLK ---->----+----------->-----------+
+    ```
+
+- The flip-flop "samples" D on the rising edge of CLK (positive edge)
+  - When CLK rises from 0 to 1, D passes through to Q
+  - Otherwise, Q holds its previous value
+- A flip-flop is called an **edge-triggered state element** because it captures data on the clock edge
+- A latch is a **level-triggered** state element
