@@ -4,7 +4,7 @@
 
 - 2 tyoes if FSN differ in the output logic
   1. **Moore FSM**: outputs depend only on the current state
-  2. **Mealy FSM**: outputs depend on the current state and the e   
+  2. **Mealy FSM**: outputs depend on the current state and the inputs
 - **State Transition Table**
 
     ```

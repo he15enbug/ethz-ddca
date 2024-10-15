@@ -1,4 +1,4 @@
-# Lecture 5b: Hardware Description Languages and Verilog
+# Lecture 5b: Hardware Description Languages and Verilog I
 
 - Hardware Description Languages, HDL
   - What we need for hardware design
@@ -30,7 +30,7 @@
   - Directions of its ports (e.g., input, output)
   - Names of its ports
     
-    ```
+    ```verilog
     module example (a, b, y);
         input a;
         input b;
@@ -38,7 +38,7 @@
     endmodule
     ```
 
-    ```
+    ```verilog
     module example (
         input a, 
         input b, 
@@ -50,7 +50,7 @@
   - `[range_end : range_start]`
   - Number of bits: `end - start + 1`
 
-    ```
+    ```verilog
     input [31:0]   a;
     output [15:8] b1; // b1[15], b1[14], ..., b1[8]
     output [7:0]  b2; // b2[7], ..., b2[0]
@@ -59,7 +59,7 @@
 
 - Manipulating bits
 
-    ```
+    ```verilog
     // We can assign partial buses
     wire [15:0] longbus;
     wire [7:0] shortbus;
@@ -83,7 +83,8 @@
   - Each module contains other modules (instances) and interconnection between those modules
   - Describes a hierarchy of modules defined as gates
   - Example:
-    ```
+
+    ```verilog
     module small (
             input A,
             input B,
@@ -114,7 +115,7 @@
 
   - Primitives
 
-    ```
+    ```verilog
     module mux2 (
             input d0, d1,
             input s,
@@ -136,7 +137,7 @@
     - Many possible gate realization of a behavioral description
   - E.g.,
 
-    ```
+    ```verilog
     module example (a, b, c, y);
         input a, b, c;
         output y;
@@ -148,7 +149,7 @@
     endmodule
     ```
 
-    ```
+    ```verilog
     module (
         input [3:0] a, b,
         input s,
@@ -167,7 +168,7 @@
     endmodule
     ```
 
-    ```
+    ```verilog
     module (
             input [3:0] d0, d1, d2, d3
             input s,
@@ -180,6 +181,7 @@
 
     endmodule
     ```
+
 - Many practical designs use a combination of both
 - Express numbers: `N'Bxx`
   - `N`: # of bits
@@ -202,7 +204,7 @@
 
 ## Parameterized Modules
 
-```
+```verilog
 module mux2
     # (parameter width = 8) // name and default value
       ( input [width-1:0] d0, d1,
@@ -212,10 +214,13 @@ module mux2
     assign y = s ? d1 : d0;
 
 endmodule
-
-mux2 i_mux (d0, d1, s, out);
-mux2 #(12) i_mux_b (d0, d1, s, out);
-mux2 #(.width(10)) i_mux_c (.d0(d0), .d1(d1), .s(s), .out(out));
+```
+```verilog
+module example (...)
+  mux2 i_mux (d0, d1, s, out);
+  mux2 #(12) i_mux_b (d0, d1, s, out);
+  mux2 #(.width(10)) i_mux_c (.d0(d0), .d1(d1), .s(s), .out(out));
+endmodule
 ```
 
 ## Timing
@@ -226,7 +231,7 @@ mux2 #(.width(10)) i_mux_c (.d0(d0), .d1(d1), .s(s), .out(out));
   - Used for modeling delays in a circcuit
   - Example
 
-    ```
+    ```verilog
     'timescale 1ns/1ps // time unit: 1 nanosecond , time precision: 1 picosecond
     module simple (input a, output z1, z2);
 
